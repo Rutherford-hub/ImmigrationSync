@@ -67,7 +67,7 @@ export default function LoginScreen() {
                 style={styles.logoIcon}
               />
             </View>
-            <Text style={styles.brandName}>ImmigrationSync</Text>
+            <Text style={styles.brandName}>ImmigraSync</Text>
           </View>
           <View style={styles.supportNav}>
             <Text style={styles.supportLink}>Applicant Portal</Text>
@@ -163,7 +163,7 @@ export default function LoginScreen() {
         {/* Footer */}
         <View style={styles.pageFooter}>
           <Text style={styles.pageFooterText}>
-            © 2026 ImmigrationSync Secure Portal. All rights reserved.
+            © 2026 ImmigraSync Secure Portal. All rights reserved.
           </Text>
         </View>
       </ScrollView>

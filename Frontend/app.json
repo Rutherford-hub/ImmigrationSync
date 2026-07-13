@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "codeQuest",
+    "name": "ImmigraSync",
     "slug": "codeQuest",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -42,8 +42,8 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Allow ImmigrationSync to access your photos to upload identity documents.",
-          "cameraPermission": "Allow ImmigrationSync to access your camera to scan identity documents."
+          "photosPermission": "Allow ImmigraSync to access your photos to upload identity documents.",
+          "cameraPermission": "Allow ImmigraSync to access your camera to scan identity documents."
         }
       ]
     ],

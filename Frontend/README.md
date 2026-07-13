@@ -36,7 +36,7 @@
 
 ## 🌍 Overview
 
-**ImmigrationSync** is a cross-platform mobile app (iOS, Android, and Web) that gives applicants a single, transparent home for their immigration case — from document upload to appointment booking to real-time case status tracking. Built with **Expo Router** for fully native navigation and file-based routing.
+**ImmigraSync** is a cross-platform mobile app (iOS, Android, and Web) that gives applicants a single, transparent home for their immigration case — from document upload to appointment booking to real-time case status tracking. Built with **Expo Router** for fully native navigation and file-based routing.
 
 <br/>
 

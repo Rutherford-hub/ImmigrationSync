@@ -43,8 +43,8 @@ export default function RootLayout() {
                   style={styles.logoImage}
                 />
               </View>
-              <Text style={styles.splashBrand}>ImmigrationSync</Text>
-              <Text style={styles.splashSub}>Secure Immigration Node</Text>
+              <Text style={styles.splashBrand}>ImmigraSync</Text>
+              <Text style={styles.splashSub}>Secure Immigration</Text>
             </View>
             <ActivityIndicator size="small" color={BrandColors.accentBlue} style={styles.loader} />
           </Animated.View>

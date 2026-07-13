@@ -20,7 +20,7 @@ export default function NotificationsScreen() {
 
   const mockSystemNotification = {
     id: 'system-welcome',
-    title: 'Welcome to ImmigrationSync',
+    title: 'Welcome to ImmigraSync',
     desc: 'Jointly powered by the Ghana Immigration Service (GIS). Start by completing your profile and uploading identity documents.',
     time: 'Just now',
     icon: 'security',

@@ -243,7 +243,7 @@ export default function ProfileScreen() {
                 style={styles.logoIcon}
               />
             </View>
-            <Text style={styles.headerTitle}>ImmigrationSync</Text>
+            <Text style={styles.headerTitle}>ImmigraSync</Text>
           </View>
           <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
             <MaterialIcon name="logout" size={22} color={BrandColors.textSecondary} />

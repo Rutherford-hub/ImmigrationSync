@@ -24,7 +24,7 @@ export default function CasesScreen() {
   const handleSupportContact = () => {
     Alert.alert(
       'Support Requested',
-      'Connecting to the ImmigrationSync 24/7 help desk...',
+      'Connecting to the ImmigraSync 24/7 help desk...',
       [{ text: 'Dismiss' }]
     );
   };

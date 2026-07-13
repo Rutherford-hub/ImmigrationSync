@@ -15,7 +15,7 @@ type TopBarProps = {
 };
 
 export default function TopBar({
-  title = 'ImmigrationSync',
+  title = 'ImmigraSync',
   showBack = false,
   onBackPress,
   showProfile = true,
