@@ -1,0 +1,6 @@
+{
+  "name": "ImmigrationSync",
+  "description": "A secure biometric passport and visa application tracking portal, designed for streamlined immigration workflows, scheduling, and live case monitoring.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
