@@ -6,13 +6,11 @@ server:
 spring:
   application:
     name: document-service
-
   datasource:
     url: jdbc:postgresql://localhost:5432/immigrationsync_documents
     username: postgres
     password: ${DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
-
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
@@ -22,17 +20,14 @@ spring:
       hibernate:
         format_sql: true
 
-  servlet:
-    multipart:
-      max-file-size: 10MB       # Max single file size
-      max-request-size: 10MB    # Max request size (including metadata)
+# ADD THIS: Eureka Client Configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
 
-# Custom properties for file storage paths
-app:
-  upload:
-    dir: ${UPLOAD_DIR:./uploads} # Local directory where physical files will be stored
-
-# Logging configuration
 logging:
   level:
     org.springframework.web: INFO
