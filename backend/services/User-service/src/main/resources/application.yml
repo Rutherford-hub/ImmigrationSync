@@ -6,27 +6,29 @@ server:
 spring:
   application:
     name: user-service
-
   datasource:
     url: jdbc:postgresql://localhost:5432/immigrationsync_users
     username: postgres
-    password: ${DB_PASSWORD:postgres} # Uses env variable or defaults to postgres
+    password: ${DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
-
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update # Automatically creates tables on startup
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
         format_sql: true
-        jdbc:
-          time_zone: UTC
 
-# Logging configuration for smooth debugging
+# ADD THIS: Eureka Client Configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
 logging:
   level:
     org.springframework.web: INFO
     org.hibernate.SQL: DEBUG
-    org.hibernate.orm.jdbc.bind: TRACE
