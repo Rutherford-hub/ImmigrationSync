@@ -9,8 +9,9 @@ eureka:
   instance:
     hostname: localhost
   client:
-    # Tell Eureka Server not to register itself as a client
+    # Essential: Stop the Eureka Server from trying to act as a client
     register-with-eureka: false
+    # Essential: Stop the Eureka Server from trying to fetch registry from others
     fetch-registry: false
     service-url:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/

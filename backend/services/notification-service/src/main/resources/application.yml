@@ -1,46 +1,25 @@
 server:
   port: 8084
-  servlet:
-    context-path: /api/v1
 
 spring:
   application:
     name: notification-service
+  # We'll point it to the same DB. If you decide to make this service stateless 
+  # later, you can easily remove the datasource block.
   datasource:
     url: jdbc:postgresql://localhost:5432/immigrationsync_notifications
     username: postgres
-    password: ${DB_PASSWORD:postgres}
+    password: password
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
     show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-  mail:
-    host: ${SMTP_HOST:smtp.mailtrap.io}
-    port: ${SMTP_PORT:2525}
-    username: ${SMTP_USERNAME:placeholder}
-    password: ${SMTP_PASSWORD:placeholder}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
 
-# ADD THIS: Eureka Client Configuration
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
   instance:
     prefer-ip-address: true
-
-logging:
-  level:
-    org.springframework.web: INFO
-    org.hibernate.SQL: DEBUG
-    com.codequest.notificationservice: DEBUG
