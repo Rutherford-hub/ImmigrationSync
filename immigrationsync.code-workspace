@@ -1,0 +1,22 @@
+{
+  "folders": [
+    {
+      "name": "📁 ROOT (Docker, SQL, Compose)",
+      "path": "."
+    },
+    {
+      "name": "☕ Authentication Service",
+      "path": "backend/services/Authentication-service"
+    },
+    {
+      "name": "☕ Application Service",
+      "path": "backend/services/application-service"
+    }
+  ],
+  "settings": {
+    // This prevents VS Code from scanning the nested target folders twice
+    "files.exclude": {
+      "**/target": true
+    }
+  }
+}

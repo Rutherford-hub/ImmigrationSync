@@ -3,6 +3,7 @@
 -- =========================================================================
 CREATE DATABASE immigrationsync_users;
 CREATE DATABASE immigrationsync_applications;
+CREATE DATABASE immigrationsync_authentication;
 CREATE DATABASE immigrationsync_documents;
 CREATE DATABASE immigrationsync_notifications;
 

@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_DB: immigrationsync
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password123       # <-- You can change this database password!
+      POSTGRES_PASSWORD: password       # <-- You can change this database password!
     ports:
       - "5432:5432"
     volumes:
