@@ -1,5 +1,6 @@
 package com.codequest.documentservice.service;
 
+import com.codequest.documentservice.Client.NotificationClient;
 import com.codequest.documentservice.dto.DocumentStatusUpdateRequest;
 import com.codequest.documentservice.dto.DocumentUploadResponse;
 import com.codequest.documentservice.model.Document;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 public class DocumentStorageService {
 
     private final DocumentRepository documentRepository;
+    private final NotificationClient notificationClient;
 
     @Value("${app.upload.dir:./uploads}")
     private String uploadDir;
@@ -84,6 +87,20 @@ public class DocumentStorageService {
         }
 
         Document updatedDocument = documentRepository.save(document);
+
+        // Inter-service call: Trigger notification-service via OpenFeign client
+        try {
+            Map<String, String> emailPayload = Map.of(
+                "recipientEmail", "user_" + document.getUserId() + "@example.com",
+                "subject", "Document Status Updated",
+                "content", "Your document '" + document.getFileName() + "' status has been updated to: " + document.getStatus()
+            );
+            notificationClient.sendEmail(emailPayload);
+        } catch (Exception e) {
+            // Log fallback so a down notification-service won't force-rollback document verification updates
+            System.err.println("Failed to dispatch inter-service notification message via Feign: " + e.getMessage());
+        }
+
         return mapToResponse(updatedDocument);
     }
 
