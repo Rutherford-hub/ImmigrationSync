@@ -59,8 +59,6 @@ CREATE TABLE IF NOT EXISTS applications (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-
 -- =========================================================================
 -- 3. DOCUMENT SERVICE TABLES
 -- =========================================================================

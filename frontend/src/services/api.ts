@@ -1,4 +1,5 @@
 import { Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Switch this to true when Spring Boot backend is running!
 export const USE_BACKEND = false;
@@ -37,12 +38,14 @@ interface BackendAuthResponse {
   avatar?: string;
 }
 
-// In-memory JWT store. Swap this for @react-native-async-storage/async-storage
-// if you want the session to survive an app restart — see note at bottom of file.
 let currentToken: string | null = null;
 
 export function getAuthToken(): string | null {
   return currentToken;
+}
+
+export function setMemoryAuthToken(token: string | null) {
+  currentToken = token;
 }
 
 function mapRoles(roles: string[]): ApiUser['role'] {
@@ -137,7 +140,7 @@ export const apiService = {
       const data: BackendAuthResponse = await response.json();
       currentToken = data.token;
 
-      return {
+      const apiUser = {
         name: data.name,
         appId: data.appId,
         email: data.email,
@@ -148,6 +151,11 @@ export const apiService = {
         avatar: data.avatar || '',
         role: mapRoles(data.roles),
       };
+      
+      await AsyncStorage.setItem('auth_token', data.token);
+      await AsyncStorage.setItem('auth_user', JSON.stringify(apiUser));
+      
+      return apiUser;
     } else {
       await new Promise((resolve) => setTimeout(resolve, 800));
       const user = mockUsers[cleanEmail];
@@ -164,8 +172,12 @@ export const apiService = {
           role: 'applicant',
         };
         mockUsers[cleanEmail] = fallbackUser;
+        await AsyncStorage.setItem('auth_token', 'mock_token');
+        await AsyncStorage.setItem('auth_user', JSON.stringify(fallbackUser));
         return fallbackUser;
       }
+      await AsyncStorage.setItem('auth_token', 'mock_token');
+      await AsyncStorage.setItem('auth_user', JSON.stringify(user));
       return user;
     }
   },
@@ -225,16 +237,9 @@ export const apiService = {
     }
   },
 
-  logout() {
+  async logout() {
     currentToken = null;
+    await AsyncStorage.removeItem('auth_token');
+    await AsyncStorage.removeItem('auth_user');
   },
 };
-
-/**
- * PERSISTING THE SESSION ACROSS APP RESTARTS
- * Right now `currentToken` lives only in memory — closing the app logs the user out.
- * To persist it:
- *   npx expo install @react-native-async-storage/async-storage
- * Then swap the in-memory variable for AsyncStorage.getItem/setItem('auth_token', ...).
- * Ask me and I'll wire this in once the rest of auth is confirmed working end-to-end.
- */

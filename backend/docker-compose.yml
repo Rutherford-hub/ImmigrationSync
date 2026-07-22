@@ -40,6 +40,27 @@ services:
       start_period: 30s
 
 
+  authentication-service:
+    build:
+      context: ./services/Authentication-service
+      dockerfile: Dockerfile
+    container_name: ImmigraSync-auth
+    restart: unless-stopped
+    expose:
+      - "8081"
+    environment:
+      DB_PASSWORD: henry
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ImmigraSync_users
+      EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
+      JWT_SECRET: ZmFrZS1kZXYtc2VjcmV0LWNoYW5nZS1tZS1pbi1wcm9kdWN0aW9uLTEyMzQ1Ng==
+      JWT_EXPIRATION: 86400000
+    depends_on:
+      postgres:
+        condition: service_healthy
+      discovery-service:
+        condition: service_started
+    networks:
+      - ImmigraSync-network
 
   user-service:
     build:
@@ -135,7 +156,8 @@ services:
     depends_on:
       discovery-service:
         condition: service_started
-
+      authentication-service:
+        condition: service_started
       user-service:
         condition: service_started
       application-service:
