@@ -29,7 +29,7 @@ jwt:
 # Eureka Client Configuration
 eureka:
   client:
-    enabled: true  # <-- FIXED: Changed from false to true to allow Eureka registration
+    enabled: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
   instance:

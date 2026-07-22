@@ -28,7 +28,11 @@ public class SecurityConfig {
         http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers(
+                    "/api/v1/auth/**", 
+                    "/api/auth/**", 
+                    "/error" // CRITICAL FIX: Permits Spring Boot's internal error dispatcher
+                ).permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session
