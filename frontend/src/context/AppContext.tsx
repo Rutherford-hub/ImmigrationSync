@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { apiService, setMemoryAuthToken } from '@/services/api';
+import React, { createContext, useContext, useState } from 'react';
+import { apiService } from '@/services/api';
 
 export type UserType = {
   name: string;
@@ -111,25 +110,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [ghanaCardBackUri, setGhanaCardBackUri] = useState<string | null>(null);
   const [biometricsVerified, setBiometricsVerified] = useState(false);
   const [activeCase, setActiveCase] = useState<CaseType | null>(null);
-  const [isRestoring, setIsRestoring] = useState(true);
 
-  useEffect(() => {
-    const restoreSession = async () => {
-      try {
-        const token = await AsyncStorage.getItem('auth_token');
-        const userStr = await AsyncStorage.getItem('auth_user');
-        if (token && userStr) {
-          setMemoryAuthToken(token);
-          setUser(JSON.parse(userStr));
-        }
-      } catch (e) {
-        console.error('Failed to restore session:', e);
-      } finally {
-        setIsRestoring(false);
-      }
-    };
-    restoreSession();
-  }, []);
 
   const login = async (email: string, name?: string, password?: string) => {
     try {
@@ -153,12 +134,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const logout = async () => {
-    try {
-      await apiService.logout();
-    } catch (e) {
-      console.error(e);
-    }
+  const logout = () => {
     setUser(null);
     setPassportPicUri(null);
     setGhanaCardFrontUri(null);

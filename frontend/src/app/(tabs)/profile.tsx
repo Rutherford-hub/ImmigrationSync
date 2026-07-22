@@ -504,9 +504,7 @@ const styles = StyleSheet.create({
     backgroundColor: BrandColors.accentBlue,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 3,
-    borderColor: '#ffffff',
-    boxShadow: `0px 4px 8px ${BrandColors.accentBlue}33`,
+    boxShadow: `0px 4px 8px ${BrandColors.accentBlue}`,
     elevation: 4,
     position: 'relative',
   },
@@ -515,11 +513,8 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 39,
   },
-  profileMonogramText: {
+ profileMonogramText: {
     color: '#ffffff',
-    fontSize: 26,
-    fontWeight: '800',
-    letterSpacing: 1,
   },
   editAvatarBtn: {
     position: 'absolute',

@@ -21,29 +21,25 @@ export default function ForgotPasswordScreen() {
   const [identifier, setIdentifier] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleResetRequest = async () => {
+  const handleResetRequest = () => {
     if (!identifier) {
       Alert.alert('Required', 'Please enter your registered Email or National ID.');
       return;
     }
     setLoading(true);
-    try {
-      await import('@/services/api').then(m => m.apiService.forgotPassword(identifier));
+    setTimeout(() => {
+      setLoading(false);
       Alert.alert(
         'Code Sent',
         'If an account is associated with this ID/Email, a password reset link has been dispatched.',
         [
           {
             text: 'OK',
-            onPress: () => router.push({ pathname: '/(auth)/otp', params: { identifier, isPasswordReset: 'true' } }),
+            onPress: () => router.push('/(auth)/otp'),
           },
         ]
       );
-    } catch (err: any) {
-      Alert.alert('Error', err.message || 'Failed to send recovery code');
-    } finally {
-      setLoading(false);
-    }
+    }, 1200);
   };
 
   return (

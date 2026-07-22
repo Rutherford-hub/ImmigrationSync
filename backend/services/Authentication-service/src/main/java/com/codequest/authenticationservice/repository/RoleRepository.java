@@ -1,6 +1,6 @@
-package com.codequest.userservice.repository;
+package com.codequest.authenticationservice.repository;
 
-import com.codequest.userservice.model.Role;
+import com.codequest.authenticationservice.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

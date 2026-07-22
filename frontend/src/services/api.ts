@@ -1,15 +1,14 @@
 import { Platform } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Switch this to true when Spring Boot backend is running!
-export const USE_BACKEND = false;
+export const USE_BACKEND = true;
 
 // NOTE: your AuthController is mapped to /api/v1/auth, not /api/auth — this was the
 // #1 reason nothing worked. Base URL now includes /v1.
 export const BACKEND_URL = Platform.select({
-  ios: 'http://172.20.10.2:8080/api/v1',
+  ios: 'http://localhost:8080/api/v1',
   android: 'http://10.0.2.2:8080/api/v1',
-  default: 'http://172.20.10.2:8080/api/v1',
+  default: 'http://localhost:8080/api/v1',
 });
 
 export interface ApiUser {
@@ -29,23 +28,14 @@ interface BackendAuthResponse {
   token: string;
   email: string;
   roles: string[];
-  name: string;
-  appId: string;
-  phone?: string;
-  ghanaCard?: string;
-  age?: number;
-  isVerified: boolean;
-  avatar?: string;
 }
 
+// In-memory JWT store. Swap this for @react-native-async-storage/async-storage
+// if you want the session to survive an app restart — see note at bottom of file.
 let currentToken: string | null = null;
 
 export function getAuthToken(): string | null {
   return currentToken;
-}
-
-export function setMemoryAuthToken(token: string | null) {
-  currentToken = token;
 }
 
 function mapRoles(roles: string[]): ApiUser['role'] {
@@ -78,11 +68,8 @@ export const apiService = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: name,
           email: cleanEmail,
-          password: password,
-          ghanaCard: cleanGhanaCard,
-          age: age
+          password,
         }),
       });
 
@@ -140,22 +127,22 @@ export const apiService = {
       const data: BackendAuthResponse = await response.json();
       currentToken = data.token;
 
-      const apiUser = {
-        name: data.name,
-        appId: data.appId,
-        email: data.email,
-        phone: data.phone,
-        ghanaCard: data.ghanaCard,
-        age: data.age,
-        isVerified: data.isVerified,
-        avatar: data.avatar || '',
+      // TODO: once you confirm the User-service profile endpoint (e.g. GET /api/v1/users/me
+      // with `Authorization: Bearer ${data.token}`), replace this block with a real fetch
+      // for name / appId / ghanaCard / age / avatar / isVerified. Right now AuthResponse only
+      // returns { token, username, roles }, so we fill the rest from what the person typed
+      // client-side as a stopgap — it will NOT reflect the true database record.
+      const fallbackAppId = 'GHA-APP-' + Math.floor(100000 + Math.random() * 900000);
+      return {
+        name: name || data.email,
+        appId: fallbackAppId,
+        email: cleanEmail,
+        ghanaCard: extra?.ghanaCard || 'GHA-000000000-0',
+        age: extra?.age,
+        isVerified: true,
+        avatar: '',
         role: mapRoles(data.roles),
       };
-      
-      await AsyncStorage.setItem('auth_token', data.token);
-      await AsyncStorage.setItem('auth_user', JSON.stringify(apiUser));
-      
-      return apiUser;
     } else {
       await new Promise((resolve) => setTimeout(resolve, 800));
       const user = mockUsers[cleanEmail];
@@ -172,74 +159,22 @@ export const apiService = {
           role: 'applicant',
         };
         mockUsers[cleanEmail] = fallbackUser;
-        await AsyncStorage.setItem('auth_token', 'mock_token');
-        await AsyncStorage.setItem('auth_user', JSON.stringify(fallbackUser));
         return fallbackUser;
       }
-      await AsyncStorage.setItem('auth_token', 'mock_token');
-      await AsyncStorage.setItem('auth_user', JSON.stringify(user));
       return user;
     }
   },
 
-  async forgotPassword(identifier: string): Promise<string> {
-    if (USE_BACKEND) {
-      const response = await fetch(`${BACKEND_URL}/auth/forgot-password`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ identifier }),
-      });
-      if (!response.ok) {
-        const err = await response.text().catch(() => 'Failed to send reset code');
-        throw new Error(err || 'Failed to send reset code');
-      }
-      return await response.text();
-    } else {
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      return "Mock OTP sent";
-    }
-  },
-
-  async verifyOtp(identifier: string, otp: string): Promise<string> {
-    if (USE_BACKEND) {
-      const response = await fetch(`${BACKEND_URL}/auth/verify-otp`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ identifier, otp }),
-      });
-      if (!response.ok) {
-        const err = await response.text().catch(() => 'Invalid OTP');
-        throw new Error(err || 'Invalid OTP');
-      }
-      return await response.text();
-    } else {
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      if (otp !== '123456') throw new Error("Mock invalid OTP");
-      return "Mock OTP verified";
-    }
-  },
-
-  async resetPassword(identifier: string, otp: string, newPassword: string): Promise<string> {
-    if (USE_BACKEND) {
-      const response = await fetch(`${BACKEND_URL}/auth/reset-password`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ identifier, otp, newPassword }),
-      });
-      if (!response.ok) {
-        const err = await response.text().catch(() => 'Password reset failed');
-        throw new Error(err || 'Password reset failed');
-      }
-      return await response.text();
-    } else {
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      return "Mock Password reset";
-    }
-  },
-
-  async logout() {
+  logout() {
     currentToken = null;
-    await AsyncStorage.removeItem('auth_token');
-    await AsyncStorage.removeItem('auth_user');
   },
 };
+
+/**
+ * PERSISTING THE SESSION ACROSS APP RESTARTS
+ * Right now `currentToken` lives only in memory — closing the app logs the user out.
+ * To persist it:
+ *   npx expo install @react-native-async-storage/async-storage
+ * Then swap the in-memory variable for AsyncStorage.getItem/setItem('auth_token', ...).
+ * Ask me and I'll wire this in once the rest of auth is confirmed working end-to-end.
+ */

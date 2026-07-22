@@ -2,18 +2,17 @@ services:
 
   postgres:
     image: postgres:15-alpine
-    container_name: ImmigraSync-postgres
+    container_name: immigrationsync-postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: henry
+      POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./init-scripts/01_innit.sql:/docker-entrypoint-initdb.d/01_innit.sql
     networks:
-      - ImmigraSync-network
+      - immigrationsync-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -24,14 +23,14 @@ services:
     build:
       context: ./services/discovery-service
       dockerfile: Dockerfile
-    container_name: ImmigraSync-discovery
+    container_name: immigrationsync-discovery
     restart: unless-stopped
     ports:
       - "8761:8761"
     environment:
       EUREKA_HOSTNAME: discovery-service
     networks:
-      - ImmigraSync-network
+      - immigrationsync-network
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8761/ || exit 1"]
       interval: 10s
@@ -39,40 +38,37 @@ services:
       retries: 15
       start_period: 30s
 
-
   authentication-service:
     build:
       context: ./services/Authentication-service
       dockerfile: Dockerfile
-    container_name: ImmigraSync-auth
+    container_name: immigrationsync-authentication
     restart: unless-stopped
-    expose:
-      - "8081"
+    ports:
+      - "8081:8081"
     environment:
-      DB_PASSWORD: henry
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ImmigraSync_users
+      DB_PASSWORD: password
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/immigrationsync_authentication
       EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
-      JWT_SECRET: ZmFrZS1kZXYtc2VjcmV0LWNoYW5nZS1tZS1pbi1wcm9kdWN0aW9uLTEyMzQ1Ng==
-      JWT_EXPIRATION: 86400000
     depends_on:
       postgres:
         condition: service_healthy
       discovery-service:
         condition: service_started
     networks:
-      - ImmigraSync-network
+      - immigrationsync-network
 
   user-service:
     build:
       context: ./services/User-service
       dockerfile: Dockerfile
-    container_name: ImmigraSync-user
+    container_name: immigrationsync-user
     restart: unless-stopped
-    expose:
-      - "8082"
+    ports:
+      - "8082:8082"
     environment:
-      DB_PASSWORD: henry
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ImmigraSync_users
+      DB_PASSWORD: password
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/immigrationsync_users
       EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
     depends_on:
       postgres:
@@ -80,19 +76,19 @@ services:
       discovery-service:
         condition: service_started
     networks:
-      - ImmigraSync-network
+      - immigrationsync-network
 
   application-service:
     build:
       context: ./services/application-service
       dockerfile: Dockerfile
-    container_name: ImmigraSync-application
+    container_name: immigrationsync-application
     restart: unless-stopped
-    expose:
-      - "8083"
+    ports:
+      - "8083:8083"
     environment:
-      DB_PASSWORD: henry
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ImmigraSync_applications
+      DB_PASSWORD: password
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/immigrationsync_applications
       EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
     depends_on:
       postgres:
@@ -100,19 +96,19 @@ services:
       discovery-service:
         condition: service_started
     networks:
-      - ImmigraSync-network
+      - immigrationsync-network
 
   notification-service:
     build:
       context: ./services/notification-service
       dockerfile: Dockerfile
-    container_name: ImmigraSync-notification
+    container_name: immigrationsync-notification
     restart: unless-stopped
-    expose:
-      - "8084"
+    ports:
+      - "8084:8084"
     environment:
-      DB_PASSWORD: henry
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ImmigraSync_notifications
+      DB_PASSWORD: password
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/immigrationsync_notifications
       EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
     depends_on:
       postgres:
@@ -120,19 +116,19 @@ services:
       discovery-service:
         condition: service_started
     networks:
-      - ImmigraSync-network
+      - immigrationsync-network
 
   document-service:
     build:
       context: ./services/document-service
       dockerfile: Dockerfile
-    container_name: ImmigraSync-document
+    container_name: immigrationsync-document
     restart: unless-stopped
-    expose:
-      - "8085"
+    ports:
+      - "8085:8085"
     environment:
-      DB_PASSWORD: henry
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ImmigraSync_documents
+      DB_PASSWORD: password
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/immigrationsync_documents
       EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
       NOTIFICATION_SERVICE_URL: http://notification-service:8084/api/v1/notifications
     depends_on:
@@ -141,13 +137,13 @@ services:
       discovery-service:
         condition: service_started
     networks:
-      - ImmigraSync-network
+      - immigrationsync-network
 
   gateway-service:
     build:
       context: ./services/gateway-service
       dockerfile: Dockerfile
-    container_name: ImmigraSync-gateway
+    container_name: immigrationsync-gateway
     restart: unless-stopped
     ports:
       - "8080:8080"
@@ -167,10 +163,10 @@ services:
       document-service:
         condition: service_started
     networks:
-      - ImmigraSync-network
+      - immigrationsync-network
 
 networks:
-  ImmigraSync-network:
+  immigrationsync-network:
     driver: bridge
 
 volumes:

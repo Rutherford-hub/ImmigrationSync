@@ -7,7 +7,7 @@ spring:
   application:
     name: user-service
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ImmigraSync_users}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/immigrationsync_users}
     username: postgres
     password: ${DB_PASSWORD:password}
     driver-class-name: org.postgresql.Driver
@@ -30,9 +30,4 @@ eureka:
 logging:
   level:
     org.springframework.web: INFO
-    org.springframework.security: DEBUG
     org.hibernate.SQL: DEBUG
-
-jwt:
-  secret: dGhpcy1pcy1hLXN1cGVyLXNlY3JldC1rZXktdGhhdC1pcy1hdC1sZWFzdC0yNTYtYml0cy1sb25nLWZvci1qd3Qtc2lnbmluZw==
-  expiration: 86400000

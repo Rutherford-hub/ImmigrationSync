@@ -1,4 +1,4 @@
-package com.codequest.userservice.config;
+package com.codequest.authenticationservice.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

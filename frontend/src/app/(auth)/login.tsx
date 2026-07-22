@@ -44,15 +44,9 @@ export default function LoginScreen() {
     setLoading(true);
     try {
       await login(email, fullName, password);
-      Alert.alert('Success', 'Congrats! You have signed in successfully.', [
-        { text: 'OK', onPress: () => router.replace('/(tabs)') }
-      ]);
+      router.replace('/(tabs)');
     } catch (e: any) {
-      // Show custom message requested by user, falling back to network errors if applicable
-      const errorMsg = e?.message?.toLowerCase().includes('fetch') 
-        ? e.message 
-        : 'User details are not in the database or invalid credentials.';
-      Alert.alert('Login Failed', errorMsg);
+      Alert.alert('Login Failed', e?.message || 'Invalid credentials');
     } finally {
       setLoading(false);
     }

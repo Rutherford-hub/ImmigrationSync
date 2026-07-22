@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Animated, ActivityIndicator, Image, Text, Platform, LogBox } from 'react-native';
+import { StyleSheet, View, Animated, ActivityIndicator, Image, Text, Platform } from 'react-native';
 import { Stack } from 'expo-router';
 import { AppProvider } from '@/context/AppContext';
 import { BrandColors } from '@/constants/Colors';
 import MaterialIcon from '@/components/MaterialIcon';
-
-LogBox.ignoreLogs([
-  '"shadow*" style props are deprecated',
-  'props.pointerEvents is deprecated',
-]);
 
 export default function RootLayout() {
   const [appReady, setAppReady] = useState(false);
@@ -37,7 +32,7 @@ export default function RootLayout() {
         </Stack>
 
         {!appReady && (
-          <Animated.View style={[styles.splashContainer, { opacity: fadeAnim, pointerEvents: 'none' }]}>
+          <Animated.View style={[styles.splashContainer, { opacity: fadeAnim }]} pointerEvents="none">
             {/* Soft gradient accent orb in background */}
             <View style={styles.blurOrb} />
             
@@ -96,7 +91,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'center',
-    boxShadow: '0px 6px 16px rgba(10, 35, 66, 0.1)',
+    shadowColor: '#0a2342',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.1,
+    shadowRadius: 16,
     elevation: 3,
     borderWidth: 1,
     borderColor: 'rgba(10, 35, 66, 0.04)',

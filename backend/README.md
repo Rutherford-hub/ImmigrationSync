@@ -18,5 +18,5 @@ Follow these steps to get both the frontend and backend running locally.
 
 ### 1. Clone the Project
 ```bash
-git clone [https://github.com/Rutherford-hub/ImmigraSync.git](https://github.com/Rutherford-hub/ImmigraSync.git)
-cd ImmigraSync
+git clone [https://github.com/Rutherford-hub/ImmigrationSync.git](https://github.com/Rutherford-hub/ImmigrationSync.git)
+cd ImmigrationSync

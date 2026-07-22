@@ -7,11 +7,10 @@ spring:
 
 eureka:
   instance:
-    hostname: ${EUREKA_HOSTNAME:localhost}
+    hostname: localhost
   client:
-    # Essential: Stop the Eureka Server from trying to act as a client
+    # Tell Eureka Server not to register itself
     register-with-eureka: false
-    # Essential: Stop the Eureka Server from trying to fetch registry from others
     fetch-registry: false
     service-url:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/

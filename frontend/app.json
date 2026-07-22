@@ -18,11 +18,7 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false,
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ],
-      "package": "com.immigration.sync"
+      "predictiveBackGestureEnabled": false
     },
     "web": {
       "output": "static",
@@ -59,9 +55,6 @@
       "router": {
         "origin": "https://ais-dev-ifjzggbfrpnm3ni2p3ijnx-369696962713.europe-west2.run.app",
         "headOrigin": "https://ais-pre-ifjzggbfrpnm3ni2p3ijnx-369696962713.europe-west2.run.app"
-      },
-      "eas": {
-        "projectId": "6c034575-a18f-4513-8b7b-24a8d319b604"
       }
     }
   }

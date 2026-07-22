@@ -1,4 +1,4 @@
-package com.codequest.userservice.dto;
+package com.codequest.authenticationservice.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

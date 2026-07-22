@@ -24,7 +24,7 @@ export default function AboutScreen() {
           <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
             <MaterialIcon name="arrow_back" size={24} color={BrandColors.primaryContainer} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>About ImmigraSync</Text>
+          <Text style={styles.headerTitle}>About ImmigrationSync</Text>
           <View style={{ width: 40 }} />
         </View>
       </SafeAreaView>
@@ -38,7 +38,7 @@ export default function AboutScreen() {
               style={styles.logoImage}
             />
           </View>
-          <Text style={styles.appName}>ImmigraSync</Text>
+          <Text style={styles.appName}>ImmigrationSync</Text>
           <Text style={styles.appVersion}>Version 1.4.2 (Official Release)</Text>
         </View>
 
@@ -59,7 +59,7 @@ export default function AboutScreen() {
         <Text style={styles.sectionTitle}>Platform Overview</Text>
         <GlassCard style={styles.detailCard}>
           <Text style={styles.detailText}>
-            ImmigraSync is Ghana's secure biometric processing node designed to synchronize civil identity data with travel permit systems. By linking the National Identification Authority (NIA) Ghana Card records to active visa or passport applications, the system reduces biometric vetting time by up to 80%.
+            ImmigrationSync is Ghana's secure biometric processing node designed to synchronize civil identity data with travel permit systems. By linking the National Identification Authority (NIA) Ghana Card records to active visa or passport applications, the system reduces biometric vetting time by up to 80%.
           </Text>
           
           <View style={styles.featureItem}>

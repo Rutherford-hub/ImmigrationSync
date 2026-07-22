@@ -76,10 +76,10 @@ export default function GlassInput({
 
         {showCustomPlaceholder && (
           <Text
+            pointerEvents="none"
             style={[
               styles.customPlaceholder,
               {
-                pointerEvents: 'none',
                 left: iconName ? 38 : 12,
                 right: isPassword ? 38 : 12,
               }
