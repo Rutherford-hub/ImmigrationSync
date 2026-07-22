@@ -13,6 +13,7 @@ export default function AuthLayout() {
       <Stack.Screen name="register" />
       <Stack.Screen name="forgot" />
       <Stack.Screen name="otp" />
+      <Stack.Screen name="reset" />
     </Stack>
   );
 }

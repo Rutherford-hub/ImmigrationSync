@@ -14,7 +14,7 @@
     <artifactId>discovery-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>discovery-service</name>
-    <description>Discovery Service (Eureka Server) for ImmigrationSync</description>
+    <description>Discovery Service (Eureka Server) for ImmigraSync</description>
 
     <properties>
         <java.version>17</java.version>

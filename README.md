@@ -102,7 +102,7 @@
 ## 📂 Project Structure
 
 ```
-immigrationsync/
+ImmigraSync/
 ├── src/
 │   └── app/                    # Expo Router file-based routes
 │       ├── (auth)/             # Login / Register flow
@@ -143,8 +143,8 @@ immigrationsync/
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/<your-org>/immigrationsync.git
-cd immigrationsync
+git clone https://github.com/<your-org>/ImmigraSync.git
+cd ImmigraSync
 
 # 2. Install dependencies
 npm install

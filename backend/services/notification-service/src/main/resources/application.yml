@@ -7,7 +7,7 @@ spring:
   # We'll point it to the same DB. If you decide to make this service stateless 
   # later, you can easily remove the datasource block.
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/immigrationsync_notifications}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ImmigraSync_notifications}
     username: postgres
     password: ${DB_PASSWORD:password}
     driver-class-name: org.postgresql.Driver

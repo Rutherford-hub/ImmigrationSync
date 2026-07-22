@@ -1,16 +1,15 @@
 -- =========================================================================
 -- DATABASE CREATION (Runs on default 'postgres' database connection)
 -- =========================================================================
-CREATE DATABASE immigrationsync_users;
-CREATE DATABASE immigrationsync_applications;
-CREATE DATABASE immigrationsync_authentication;
-CREATE DATABASE immigrationsync_documents;
-CREATE DATABASE immigrationsync_notifications;
+CREATE DATABASE "ImmigraSync_users";
+CREATE DATABASE "ImmigraSync_applications";
+CREATE DATABASE "ImmigraSync_documents";
+CREATE DATABASE "ImmigraSync_notifications";
 
 -- =========================================================================
 -- 1. AUTHENTICATION / USER SERVICE TABLES
 -- =========================================================================
-\c immigrationsync_users;
+\c "ImmigraSync_users";
 
 CREATE TABLE IF NOT EXISTS roles (
     id SERIAL PRIMARY KEY,
@@ -19,8 +18,19 @@ CREATE TABLE IF NOT EXISTS roles (
 
 CREATE TABLE IF NOT EXISTS users (
     id BIGSERIAL PRIMARY KEY,
+    app_id VARCHAR(50) UNIQUE NOT NULL,
+    full_name VARCHAR(150) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL
+    phone VARCHAR(20),
+    ghana_card VARCHAR(20),
+    age INT,
+    is_verified BOOLEAN DEFAULT FALSE,
+    avatar TEXT,
+    password VARCHAR(255) NOT NULL,
+    reset_otp VARCHAR(10),
+    reset_otp_expiry TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS user_roles (
@@ -38,7 +48,7 @@ ON CONFLICT (name) DO NOTHING;
 -- =========================================================================
 -- 2. CASE APPLICATION SERVICE TABLES
 -- =========================================================================
-\c immigrationsync_applications;
+\c "ImmigraSync_applications";
 
 CREATE TABLE IF NOT EXISTS applications (
     id BIGSERIAL PRIMARY KEY,
@@ -54,7 +64,7 @@ CREATE TABLE IF NOT EXISTS applications (
 -- =========================================================================
 -- 3. DOCUMENT SERVICE TABLES
 -- =========================================================================
-\c immigrationsync_documents;
+\c "ImmigraSync_documents";
 
 CREATE TABLE IF NOT EXISTS documents (
     id BIGSERIAL PRIMARY KEY,
@@ -72,7 +82,7 @@ CREATE TABLE IF NOT EXISTS documents (
 -- =========================================================================
 -- 4. NOTIFICATION SERVICE TABLES
 -- =========================================================================
-\c immigrationsync_notifications;
+\c "ImmigraSync_notifications";
 
 CREATE TABLE IF NOT EXISTS notifications (
     id BIGSERIAL PRIMARY KEY,

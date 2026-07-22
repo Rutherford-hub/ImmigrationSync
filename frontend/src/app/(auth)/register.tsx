@@ -101,7 +101,9 @@ export default function RegisterScreen() {
     setLoading(true);
     try {
       await registerUser(fullName, email, password, ghanaCard, ageNum);
-      router.replace('/(tabs)');
+      Alert.alert('Success', 'Congrats! You have registered successfully.', [
+        { text: 'OK', onPress: () => router.replace('/(tabs)') }
+      ]);
     } catch (e: any) {
       Alert.alert('Registration Failed', e?.message || 'An error occurred during account creation.');
     } finally {
@@ -126,7 +128,7 @@ export default function RegisterScreen() {
 
         <View style={s.wordmark}>
           <View style={s.wordmarkDot} />
-          <Text style={s.wordmarkText}>ImmigrationSync</Text>
+          <Text style={s.wordmarkText}>ImmigraSync</Text>
         </View>
 
         <View style={{ width: 40 }} />

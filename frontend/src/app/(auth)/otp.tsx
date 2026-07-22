@@ -10,7 +10,7 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { BrandColors } from '@/constants/Colors';
 import GlassCard from '@/components/GlassCard';
 import CustomButton from '@/components/CustomButton';
@@ -67,6 +67,8 @@ export default function OtpScreen() {
     Alert.alert('Sent', 'A new 6-digit code has been dispatched.');
   };
 
+  const { identifier, isPasswordReset } = useLocalSearchParams<{ identifier: string; isPasswordReset: string }>();
+
   const handleVerify = async () => {
     const code = otpCode.join('');
     if (code.length !== 6) {
@@ -75,22 +77,26 @@ export default function OtpScreen() {
     }
 
     setLoading(true);
-    // Simulate verification
-    setTimeout(async () => {
-      try {
+    try {
+      const apiModule = await import('@/services/api');
+      
+      if (isPasswordReset === 'true') {
+        // Just verify the OTP first, don't login
+        await apiModule.apiService.verifyOtp(identifier || '', code);
+        setLoading(false);
+        router.replace({ pathname: '/(auth)/reset', params: { identifier, otp: code } });
+      } else {
+        // Traditional verification / login (mocked for now as we don't have a verify endpoint for registration)
         await login('ID-984A-TEMP', 'password');
         setLoading(false);
         Alert.alert('Verified', 'Identity verified successfully!', [
-          {
-            text: 'Proceed',
-            onPress: () => router.replace('/(tabs)'),
-          },
+          { text: 'Proceed', onPress: () => router.replace('/(tabs)') }
         ]);
-      } catch (err) {
-        setLoading(false);
-        Alert.alert('Verification Failed', 'The code you entered is invalid.');
       }
-    }, 1200);
+    } catch (err: any) {
+      setLoading(false);
+      Alert.alert('Verification Failed', err.message || 'The code you entered is invalid.');
+    }
   };
 
   const formatTime = (seconds: number) => {

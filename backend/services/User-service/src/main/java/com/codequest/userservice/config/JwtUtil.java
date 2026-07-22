@@ -1,4 +1,4 @@
-package com.codequest.authenticationservice.config;
+package com.codequest.userservice.config;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;

@@ -6,7 +6,7 @@ spring:
     name: authentication-service
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/immigrationsync_authentication
+    url: jdbc:postgresql://localhost:5432/ImmigraSync_authentication
     username: postgres
     password: henry
     driver-class-name: org.postgresql.Driver

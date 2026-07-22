@@ -7,7 +7,7 @@ spring:
   application:
     name: document-service
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://127.0.0.1:5432/immigrationsync_documents}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://127.0.0.1:5432/ImmigraSync_documents}
     username: postgres
     # Uses environment variable DB_PASSWORD if set, otherwise defaults to 'password'
     password: ${DB_PASSWORD:password}

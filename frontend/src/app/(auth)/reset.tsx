@@ -9,38 +9,51 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { BrandColors } from '@/constants/Colors';
 import GlassCard from '@/components/GlassCard';
 import GlassInput from '@/components/GlassInput';
 import CustomButton from '@/components/CustomButton';
 import MaterialIcon from '@/components/MaterialIcon';
 
-export default function ForgotPasswordScreen() {
+export default function ResetPasswordScreen() {
   const router = useRouter();
-  const [identifier, setIdentifier] = useState('');
+  const { identifier, otp } = useLocalSearchParams<{ identifier: string; otp: string }>();
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleResetRequest = async () => {
-    if (!identifier) {
-      Alert.alert('Required', 'Please enter your registered Email or National ID.');
+  const handleResetPassword = async () => {
+    if (!newPassword || !confirmPassword) {
+      Alert.alert('Required', 'Please enter and confirm your new password.');
       return;
     }
+    if (newPassword !== confirmPassword) {
+      Alert.alert('Mismatch', 'Passwords do not match.');
+      return;
+    }
+    if (newPassword.length < 6) {
+      Alert.alert('Too Short', 'Password must be at least 6 characters.');
+      return;
+    }
+
     setLoading(true);
     try {
-      await import('@/services/api').then(m => m.apiService.forgotPassword(identifier));
+      const apiModule = await import('@/services/api');
+      await apiModule.apiService.resetPassword(identifier || '', otp || '', newPassword);
+      
       Alert.alert(
-        'Code Sent',
-        'If an account is associated with this ID/Email, a password reset link has been dispatched.',
+        'Success',
+        'Your password has been successfully reset. Please login with your new password.',
         [
           {
-            text: 'OK',
-            onPress: () => router.push({ pathname: '/(auth)/otp', params: { identifier, isPasswordReset: 'true' } }),
+            text: 'Login',
+            onPress: () => router.replace('/(auth)/login'),
           },
         ]
       );
     } catch (err: any) {
-      Alert.alert('Error', err.message || 'Failed to send recovery code');
+      Alert.alert('Error', err.message || 'Failed to reset password');
     } finally {
       setLoading(false);
     }
@@ -52,52 +65,50 @@ export default function ForgotPasswordScreen() {
       style={styles.keyboardContainer}
     >
       <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
-        {/* Top Header */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
             <MaterialIcon name="arrow_back" size={24} color={BrandColors.primaryContainer} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Recovery</Text>
+          <Text style={styles.headerTitle}>New Password</Text>
         </View>
 
         <View style={styles.canvas}>
           <GlassCard style={styles.card}>
             <View style={styles.cardHeader}>
-              <Text style={styles.titleText}>Forgot Password?</Text>
+              <Text style={styles.titleText}>Reset Password</Text>
               <Text style={styles.subtitleText}>
-                Enter your registered National ID or Email to receive password recovery details.
+                Enter your new password below. Make sure it's secure and at least 6 characters long.
               </Text>
             </View>
 
             <View style={styles.form}>
               <GlassInput
-                label="Email or National ID"
-                iconName="badge"
-                value={identifier}
-                onChangeText={setIdentifier}
-                placeholder="Enter details"
-                autoCapitalize="none"
+                label="New Password"
+                iconName="lock"
+                value={newPassword}
+                onChangeText={setNewPassword}
+                placeholder="Enter new password"
+                isPassword
+              />
+              
+              <GlassInput
+                label="Confirm Password"
+                iconName="lock"
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                placeholder="Confirm new password"
+                isPassword
               />
 
               <CustomButton
-                title="Send Recovery Code"
-                onPress={handleResetRequest}
+                title="Reset Password"
+                onPress={handleResetPassword}
                 loading={loading}
                 style={styles.submitBtn}
               />
             </View>
-
-            <View style={styles.footer}>
-              <Text style={styles.footerText}>
-                Remember your password?{' '}
-                <Text style={styles.loginLink} onPress={() => router.push('/(auth)/login')}>
-                  Login
-                </Text>
-              </Text>
-            </View>
           </GlassCard>
 
-          {/* Secure environment logo */}
           <View style={styles.secureBadge}>
             <MaterialIcon name="lock" size={16} color={BrandColors.outline} />
             <Text style={styles.secureText}>Secure network channel.</Text>
@@ -167,18 +178,6 @@ const styles = StyleSheet.create({
   },
   submitBtn: {
     marginTop: 12,
-  },
-  footer: {
-    marginTop: 20,
-    alignItems: 'center',
-  },
-  footerText: {
-    fontSize: 14,
-    color: BrandColors.textSecondary,
-  },
-  loginLink: {
-    color: BrandColors.accentBlue,
-    fontWeight: '700',
   },
   secureBadge: {
     flexDirection: 'row',

@@ -9,9 +9,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class UserResponse {
     private Long id;
-    private String firstName;
-    private String lastName;
+    private String appId;
+    private String fullName;
     private String email;
+    private String phone;
+    private String ghanaCard;
+    private Integer age;
+    private Boolean isVerified;
+    private String avatar;
     private String role;
     private LocalDateTime createdAt;
 }

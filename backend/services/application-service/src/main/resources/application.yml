@@ -5,7 +5,7 @@ spring:
   application:
     name: application-service
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/immigrationsync_applications}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ImmigraSync_applications}
     username: postgres
     password: ${DB_PASSWORD:password}
     driver-class-name: org.postgresql.Driver

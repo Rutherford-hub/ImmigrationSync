@@ -1,4 +1,4 @@
-package com.codequest.authenticationservice.config;
+package com.codequest.userservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,10 +27,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)
+            .cors(AbstractHttpConfigurer::disable) // CRITICAL FIX: Prevent 403 from internal CORS rejection
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
                     "/api/v1/auth/**", 
-                    "/api/auth/**", 
+                    "/auth/**", 
                     "/error" // CRITICAL FIX: Permits Spring Boot's internal error dispatcher
                 ).permitAll()
                 .anyRequest().authenticated()
