@@ -9,7 +9,7 @@ import java.security.Key;
 public class JwtUtil {
 
     // Must match the secret signing key used by your auth-service
-    private static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
+    private static final String SECRET = "dGhpcy1pcy1hLXN1cGVyLXNlY3JldC1rZXktdGhhdC1pcy1hdC1sZWFzdC0yNTYtYml0cy1sb25nLWZvci1qd3Qtc2lnbmluZw==";
 
     public void validateToken(final String token) {
         Jwts.parserBuilder()

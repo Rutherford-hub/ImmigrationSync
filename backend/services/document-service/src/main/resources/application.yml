@@ -1,5 +1,5 @@
 server:
-  port: 8083
+  port: 8085
   servlet:
     context-path: /api/v1
 
@@ -7,10 +7,10 @@ spring:
   application:
     name: document-service
   datasource:
-    url: jdbc:postgresql://127.0.0.1:5432/immigrationsync_documents
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://127.0.0.1:5432/immigrationsync_documents}
     username: postgres
-    # Uses environment variable DB_PASSWORD if set, otherwise defaults to 'postgres'
-    password: password
+    # Uses environment variable DB_PASSWORD if set, otherwise defaults to 'password'
+    password: ${DB_PASSWORD:password}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -26,7 +26,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}
   instance:
     prefer-ip-address: true
 

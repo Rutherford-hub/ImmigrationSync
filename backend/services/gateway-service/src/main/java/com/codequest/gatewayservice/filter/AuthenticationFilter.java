@@ -36,6 +36,11 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
 
+            // 0. Let CORS OPTIONS requests pass through
+            if (request.getMethod().name().equals("OPTIONS")) {
+                return chain.filter(exchange);
+            }
+
             // 1. If it's a public endpoint, let it pass right through
             if (openApiEndpoints.stream().anyMatch(uri -> request.getURI().getPath().contains(uri))) {
                 return chain.filter(exchange);

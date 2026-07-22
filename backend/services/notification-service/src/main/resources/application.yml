@@ -7,9 +7,9 @@ spring:
   # We'll point it to the same DB. If you decide to make this service stateless 
   # later, you can easily remove the datasource block.
   datasource:
-    url: jdbc:postgresql://localhost:5432/immigrationsync_notifications
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/immigrationsync_notifications}
     username: postgres
-    password: password
+    password: ${DB_PASSWORD:password}
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -20,6 +20,6 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}
   instance:
     prefer-ip-address: true

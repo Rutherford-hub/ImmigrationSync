@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0A2342&height=180&section=header&text=ImmigraSync&fontSize=42&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=Digital%20Immigration%20Case%20Management,%20Simplified&descAlignY=58&descSize=16" width="100%"/>
+
 <a href="https://github.com">
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&duration=3000&pause=800&color=0A2342&center=true&vCenter=true&width=600&lines=Track+your+application+in+real+time;Upload+identity+documents+securely;Book+appointments+in+a+few+taps;Built+with+Expo+%2B+React+Native" alt="Typing SVG" />
 </a>
@@ -34,7 +36,7 @@
 
 ## 🌍 Overview
 
-**ImmigrationSync** is a cross-platform mobile app (iOS, Android, and Web) that gives applicants a single, transparent home for their immigration case — from document upload to appointment booking to real-time case status tracking. Built with **Expo Router** for fully native navigation and file-based routing.
+**ImmigraSync** is a cross-platform mobile app (iOS, Android, and Web) that gives applicants a single, transparent home for their immigration case — from document upload to appointment booking to real-time case status tracking. Built with **Expo Router** for fully native navigation and file-based routing.
 
 <br/>
 

@@ -102,8 +102,8 @@ export default function RegisterScreen() {
     try {
       await registerUser(fullName, email, password, ghanaCard, ageNum);
       router.replace('/(tabs)');
-    } catch (e) {
-      Alert.alert('Registration Failed', 'An error occurred during account creation.');
+    } catch (e: any) {
+      Alert.alert('Registration Failed', e?.message || 'An error occurred during account creation.');
     } finally {
       setLoading(false);
     }
